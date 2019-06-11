@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- Header -->
+<head>
+  <title>Tim Hortons Line - Markam IBM Lab: Warden</title>
+  <link rel="shortcut icon" type="image/x-icon" href="sysicon.png">
+  <link rel="apple-touch-icon" href="http://drive.google.com/uc?export=view&id=10QHeC2Ns1fVcPitwuIHiPDYHz0wWAd7u">
+
+
+<style>
+body{
+  /* width: 100%; */
+  height: auto;
+  margin: 12px;
+  padding: 0px;
+  font-family: Georgia;
+  background: url("wood.jpg");
+}
+
+.banner{
+  position: relative;
+  height: 25vh;
+  overflow: hidden;
+  background: linear-gradient(#000000, transparent,transparent, #cfebdf), url("timline2.png") no-repeat center;
+  background-size: cover;
+}
+
+.top {
+	background-color: #cfebdf;
+	padding: 20px;
+}
+
+.middle {
+	text-align: center;
+	padding-bottom: 25px;
+  background-color: #e2fadb;
+}
+
+.footer{
+  background-color: #cfebdf;
+  padding: 20px;
+  background: #cfebdf;
+  /* background: linear-gradient(#cfebdf, #000000, transparent) */
+}
+
+#title{
+  font-size: 50px;
+  padding: 0;
+  line-height: 0px;
+}
+
+#subtite {
+    line-height: 0px;
+}
+
+#graph {
+ 	width: 30%;
+  	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	padding: 16px;
+}
+
+#line,#time{
+  font-size: 30px;
+  line-height: 0px;
+  font-style: italic;
+}
+</style>
+
+</head>
+
+
+<!-- Body -->
+<body onload="update()">
+
+<script>
+var line = 0;
+var time = "";
+function getData() {
+	var xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function() {
+		if (this.readyState == 4 && this.status == 200) {
+			line = this.responseText.split(',')[0];
+			time = this.responseText.split(',')[1];
+			time = time.substring(0, time.length);
+			document.getElementById("line").innerHTML = line;
+			document.getElementById("time").innerHTML = time;
+			//console.log("Good");
+		} else if (this.readyState == 4 && this.status != 200) {
+			document.getElementById("line").innerHTML = "Bad";
+			document.getElementById("time").innerHTML = "Connection";
+			//console.log(this.readyState);
+			//console.log("Bad");
+		}
+	};
+	xhttp.open("GET", "server_data.dat", true);
+	xhttp.send();
+}
+function update() {
+	getData();
+	setInterval(getData, 4800);
+}
+</script>
+<div class = "banner">
+  <p></p>
+</div>
+<div class='top'>
+	<h1 align="middle" id ="title">Tim's Line</h1>
+  <p align="middle" id ="subtite">Powered by IBM Power AI Vision</p>
+</div>
+
+<div class='middle'>
+
+	<image src="server_graph.png" id="graph"> </image>
+
+	<h2>Number of people in line:</h2>
+	<p id="line"></p>
+	<h2>Recorded at:</h2>
+	<p id="time"></p>
+	<!-- <button class="button button" onclick="getData()">Update Line</button> -->
+
+</div>
+<div class="footer">
+  <p></p>
+</div>
+</body>
+
+</meta>
+</html>

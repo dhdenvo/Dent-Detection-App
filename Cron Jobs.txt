@@ -1,0 +1,11 @@
+#For setting up the server daily
+16 19 * * * curl http://localhost:5000/data?kill=True #Kill the server
+24 19 * * * cd /home/ddaghelian/Tims\ Line\ Application/TimsServer/ && python RestartServerStorage.py #Clear the server storage file
+32 19 * * * cd /home/ddaghelian/Tims\ Line\ Application/TimsServer/ && python TimsServerCombined.py #Turn on the server
+
+#For running the graph generation programs
+*/30 * * * * cd /home/ddaghelian/Tims\ Line\ Application/ServerModel/ && python build_graph.py
+20 19 * * * cd /home/ddaghelian/Tims\ Line\ Application/ServerModel/ && python train_model.py
+0 4 * * * cd /home/ddaghelian/Tims\ Line\ Application/ServerModel/ && python predict.py
+
+
