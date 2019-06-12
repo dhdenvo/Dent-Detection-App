@@ -1,4 +1,4 @@
-package com.example.linecalculator;
+package com.example.dentcalculator;
 
 import org.junit.Test;
 

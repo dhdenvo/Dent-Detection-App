@@ -1,9 +1,8 @@
-package com.example.linecalculator;
+package com.example.dentcalculator;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Environment;
@@ -278,43 +277,16 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected Bitmap doInBackground(String... params) {
-            HttpURLConnection con = null;
+            getFileUri();
+            Bitmap dentBitmap = BitmapFactory.decodeFile(file_uri.getPath());
 
-            //The string in which the url is going to be set to
-            String urlWithParams = getLocUrl(params[0]) + "&image=True";
-
-            try {
-                URL url = new URL(urlWithParams);
-                con = (HttpURLConnection) url.openConnection();
-                con.setRequestMethod("GET");
-
-                InputStream stream = con.getInputStream();
-
-                return BitmapFactory.decodeStream(stream);
-
-            } catch (MalformedURLException e) {
-                //e.printStackTrace();
-            } catch (IOException e) {
-                //e.printStackTrace();
-            } finally {
-                if (con != null) {
-                    con.disconnect();
-                }
-            }
-
-            return null;
+            return dentBitmap;
         }
 
         @Override
         protected void onPostExecute(Bitmap result) {
             super.onPostExecute(result);
-            if (result == null) {
-                Drawable noconnection = getResources().getDrawable( R.drawable.noconnection );
-                graph.setImageDrawable(noconnection);
-            } else {
-                graph.setImageBitmap(result);
-            }
-
+            graph.setImageBitmap(result);
 
         }
     }

@@ -7,40 +7,6 @@
     tools:context=".MainActivity"
     android:background="@drawable/wood">
 
-    <!--<shape
-        android:id="@+id/shape"
-        android:layout_width="match_parent"
-        android:layout_height="102dp"
-        android:shape="rectangle"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="368dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp">
-
-
-    <solid android:color="#e2fadb" />
-
-        <stroke
-            android:width="1dip"
-            android:color="#4fa5d5" />
-    </shape>
-
-    <shape
-        android:layout_width="match_parent"
-        android:layout_height="88dp"
-        android:shape="rectangle"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="491dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp">
-
-        <solid android:color="#e2fadb" />
-
-        <stroke
-            android:width="1dip"
-            android:color="#4fa5d5" />
-    </shape>-->
-
     <TextView
         android:id="@+id/textView"
         android:layout_width="match_parent"
@@ -48,7 +14,7 @@
         android:layout_margin="20dp"
         android:layout_marginBottom="36dp"
         android:background="#e2fadb"
-        android:text="Number \nof People:"
+        android:text="Dent \nor Not:"
         android:textSize="35sp"
         app:fontFamily="serif-monospace"
         app:layout_constraintBottom_toTopOf="@+id/textView2"
@@ -75,12 +41,12 @@
         android:layout_marginLeft="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
+        android:background="#cfebdf"
         android:onClick="takePicture"
-        android:text="Crowd Source Line"
+        android:text="Check For A Dent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:background="#cfebdf"/>
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/textView3"
