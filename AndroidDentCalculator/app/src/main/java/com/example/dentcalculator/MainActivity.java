@@ -15,9 +15,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.location.Location;
-import android.location.LocationManager;
-import android.content.Context;
 import android.widget.ImageView;
 
 
@@ -53,8 +50,8 @@ public class MainActivity extends AppCompatActivity {
     private Bitmap bitmap;
     private File file;
     private Uri file_uri;
-    private static String server = "http://drv-ctp6.canlab.ibm.com:5000/data";
-    private String[] allPermissions = {android.Manifest.permission.READ_EXTERNAL_STORAGE, android.Manifest.permission.WRITE_EXTERNAL_STORAGE, android.Manifest.permission.ACCESS_FINE_LOCATION};
+    private static String server = "http://drv-ctp6.canlab.ibm.com:5000/dent";
+    private String[] allPermissions = {android.Manifest.permission.READ_EXTERNAL_STORAGE, android.Manifest.permission.WRITE_EXTERNAL_STORAGE};
 
 
     @Override
@@ -153,7 +150,7 @@ public class MainActivity extends AppCompatActivity {
 
         private void makeRequest(){
             RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
-            StringRequest request = new StringRequest(Request.Method.POST, getLocUrl(server),
+            StringRequest request = new StringRequest(Request.Method.POST, server,
                     new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
@@ -182,34 +179,6 @@ public class MainActivity extends AppCompatActivity {
 //
 //    }
 
-    /**
-     * Gets the longitude and latitude of the android device and updates the url with them as parameters
-     * @param url The original url to the server
-     * @return The updated url with the location parameters
-     */
-    private String getLocUrl(String url) {
-
-        try {
-            LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-            Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-
-            //Get the latitude and longitude of the phone
-            double lng = location.getLongitude();
-            double lat = location.getLatitude();
-
-            //Set them as parameters by appending them to the url
-            return url + "?lat=" + String.valueOf(lat) + "&long=" + String.valueOf(lng);
-        } catch (SecurityException e) {
-            //If the user denies the app's access to the location, do nothing to the url
-            return url;
-        } catch (NullPointerException e) {
-            return url + "?";
-        }
-
-    }
-
-
-
     public class JSONTask extends AsyncTask<String, String, String> {
 
         @Override
@@ -217,11 +186,8 @@ public class MainActivity extends AppCompatActivity {
             HttpURLConnection con = null;
             BufferedReader reader = null;
 
-            //The string in which the url is going to be set to
-            String urlWithParams = getLocUrl(params[0]);
-
             try {
-                URL url = new URL(urlWithParams);
+                URL url = new URL(params[0]);
                 con = (HttpURLConnection) url.openConnection();
                 con.setRequestMethod("GET");
 
