@@ -154,7 +154,10 @@ public class MainActivity extends AppCompatActivity {
                     new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
-
+                            String[] r = response.split(",");
+                            p.setText(r[0].replace("\"", ""));
+                            lastUpdate.setText(r[1].replace("\"", ""));
+                            //Log.d("HELLLLLLLLLLLLLLLLOOOOO", "HDSIJDI");
                         }
                     }, new Response.ErrorListener(){
                             @Override
