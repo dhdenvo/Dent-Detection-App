@@ -3,6 +3,7 @@ package com.example.dentcalculator;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Environment;
@@ -74,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
                     101, allPermissions);
         }
 
-        new JSONTask().execute(server);
+        /*new JSONTask().execute(server);
         new ImageTask().execute(server);
 
         Thread t = new Thread(){
@@ -98,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         };
-        t.start();
+        t.start();*/
 
         button.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -157,7 +158,8 @@ public class MainActivity extends AppCompatActivity {
                             String[] r = response.split(",");
                             p.setText(r[0].replace("\"", ""));
                             lastUpdate.setText(r[1].replace("\"", ""));
-                            //Log.d("HELLLLLLLLLLLLLLLLOOOOO", "HDSIJDI");
+
+                            new ImageTask().execute(server);
                         }
                     }, new Response.ErrorListener(){
                             @Override
@@ -182,7 +184,7 @@ public class MainActivity extends AppCompatActivity {
 //
 //    }
 
-    public class JSONTask extends AsyncTask<String, String, String> {
+    /*public class JSONTask extends AsyncTask<String, String, String> {
 
         @Override
         protected String doInBackground(String... params) {
@@ -240,23 +242,45 @@ public class MainActivity extends AppCompatActivity {
             }
 
         }
-    }
+    }*/
 
     public class ImageTask extends AsyncTask<String, String, Bitmap> {
 
         @Override
         protected Bitmap doInBackground(String... params) {
-            getFileUri();
-            Bitmap dentBitmap = BitmapFactory.decodeFile(file_uri.getPath());
+            HttpURLConnection con = null;
 
-            return dentBitmap;
+            try {
+                URL url = new URL(params[0] + "?image=True");
+                con = (HttpURLConnection) url.openConnection();
+                con.setRequestMethod("GET");
+
+                InputStream stream = con.getInputStream();
+
+                return BitmapFactory.decodeStream(stream);
+
+            } catch (MalformedURLException e) {
+                //e.printStackTrace();
+            } catch (IOException e) {
+                //e.printStackTrace();
+            } finally {
+                if (con != null) {
+                    con.disconnect();
+                }
+            }
+
+            return null;
         }
 
         @Override
         protected void onPostExecute(Bitmap result) {
             super.onPostExecute(result);
-            graph.setImageBitmap(result);
-
+            if (result == null) {
+                Drawable nocamera = getResources().getDrawable( R.drawable.nocamera );
+                graph.setImageDrawable(nocamera);
+            } else {
+                graph.setImageBitmap(result);
+            }
         }
     }
 }
