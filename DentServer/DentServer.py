@@ -58,6 +58,17 @@ class User(Resource):
         if request.args.get("kill") == "True" and auto_reset:
             os.kill(os.getpid(), signal.SIGINT)
         
+        if request.args.get("image") == "True":
+            try:
+                sent_file = send_file("dent.png", "image/png")         
+            #Occurs in python 2
+            except IOError:
+                sent_file = send_file("NoCamera.png", "image/png")
+            #Occurs in python 3
+            except FileNotFoundError:
+                sent_file = send_file("NoCamera.png", "image/png")                
+            return sent_file        
+        
         #Find the server data and return it to the client
         server_data = open(storage_file, 'r')  
         data = server_data.read()
@@ -145,7 +156,7 @@ class User(Resource):
         
         #Save the photo (comment out normally)
         if save_image:
-            f = open("DentImages/" + server_data.replace(",", "_") + ".jpg", "wb")
+            f = open("dent.png", "wb")
             f.write(files["files"][1])
             f.close()        
         
