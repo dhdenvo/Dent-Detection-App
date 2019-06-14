@@ -152,7 +152,7 @@ class User(Resource):
         if week_day == 7: 
             weekday -= 7
         
-        server_data = img_day_str + ",%d," % week_day + img_time_str + ",%d," % amount_in_line
+        server_data = img_day_str + ",%d," % week_day + img_time_str + ",%d" % amount_in_line
         
         #Save the photo (comment out normally)
         if save_image:
@@ -162,7 +162,8 @@ class User(Resource):
         
         #Sends a put call to itself
         server_req = requests.put(url = server_url, params={"data": server_data})
-        return server_data
+        server_req = requests.get(url = server_url)        
+        return server_req.content
 
 #Runs the rest api application
 api.add_resource(User, "/dent")
