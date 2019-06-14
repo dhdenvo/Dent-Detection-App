@@ -37,7 +37,7 @@ def signal_handler(a, b):
 #Server information
 storage_file = "server_storage.csv"
 api_url = "https://p10a156.pbm.ihost.com/powerai-vision/api/dlapis/7342cc0c-85aa-46bb-994f-f438cddb212e"
-server_url = "http://127.0.0.1:5000/data"
+server_url = "http://127.0.0.1:5000/dent"
 #website_server_file = "../../../../var/www/html/TimsLine/"
 #website = True
 auto_reset = True
