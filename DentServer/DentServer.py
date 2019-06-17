@@ -176,16 +176,16 @@ class User(Resource):
             f.close()
             
             if probability != 0:
-                dent = cv2.imread("dent.png", 0)
+                dent = cv2.imread("dent.png")
                 # Draw outline of shape
-                cv2.polylines(dent, [np.int32(polygons)], True, color=(255,0,0), thickness=2, lineType=8, shift=0)
+                cv2.polylines(dent, [np.int32(polygons)], True, color=(0,0,255), thickness=2, lineType=8, shift=0)
                 
                 # Make copy of image
                 overlay = dent.copy()
                 
                 # Create transparent overlay of color on top of polygon
-                cv2.fillPoly(overlay, [np.int32(polygons)], (255,0,0))
-                cv2.addWeighted(overlay, 0.5, dent, 0.5, 0, dent)
+                cv2.fillPoly(overlay, [np.int32(polygons)], (0,0,255))
+                cv2.addWeighted(overlay, 0.3, dent, 0.7, 0, dent)
                 cv2.imwrite("drawn_dent.png", dent)
             
         
