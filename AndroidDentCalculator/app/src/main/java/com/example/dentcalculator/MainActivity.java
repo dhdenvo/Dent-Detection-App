@@ -130,7 +130,7 @@ public class MainActivity extends AppCompatActivity {
                         @Override
                         public void onResponse(String response) {
                             String[] r = response.split(",");
-                            p.setText(r[0].replace("\"", ""));
+                            p.setText(r[0].replace("\"", "") + "%");
                             lastUpdate.setText(r[1].replace("\"", ""));
 
                             new ImageTask().execute(server);
