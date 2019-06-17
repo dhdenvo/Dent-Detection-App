@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity"
-    android:background="@drawable/wood">
+    android:background="#FFFFFF">
 
     <TextView
         android:id="@+id/textView"
@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
         android:layout_marginBottom="36dp"
-        android:background="#e2fadb"
+        android:background="#1DBBEA"
         android:text="Dent \nProbability:"
         android:textSize="35sp"
         app:fontFamily="serif-monospace"
@@ -26,7 +26,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
         android:layout_marginBottom="36dp"
-        android:background="#e2fadb"
+        android:background="#1DBBEA"
         android:text="Last \nUpdate:"
         android:textSize="35sp"
         app:fontFamily="serif-monospace"
@@ -41,7 +41,7 @@
         android:layout_marginLeft="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
-        android:background="#cfebdf"
+        android:background="#1DBBEA"
         android:onClick="takePicture"
         android:text="Check For A Dent"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -63,7 +63,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:background="#008376"/>
+        android:background="#1DBBEA"/>
 
     <TextView
         android:id="@+id/people"
