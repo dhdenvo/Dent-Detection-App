@@ -10,6 +10,9 @@ import datetime
 import requests
 import base64
 import os
+import numpy as np
+import cv2
+
 
 #Defining The API Application
 app = Flask(__name__)
@@ -36,7 +39,7 @@ def signal_handler(a, b):
 
 #Server information
 storage_file = "server_storage.csv"
-api_url = "https://p10a156.pbm.ihost.com/powerai-vision/api/dlapis/7342cc0c-85aa-46bb-994f-f438cddb212e"
+api_url = "https://p10a156.pbm.ihost.com/powerai-vision/api/dlapis/9ea108e0-ef95-486d-9c57-04be4c35e633"
 server_url = "http://127.0.0.1:5000/dent"
 #website_server_file = "../../../../var/www/html/TimsLine/"
 #website = True
@@ -60,7 +63,14 @@ class User(Resource):
         
         if request.args.get("image") == "True":
             try:
-                sent_file = send_file("dent.png", "image/png")         
+                try:
+                    sent_file = send_file("drawn_dent.png", "image/png") 
+                #Occurs in python 2
+                except IOError:
+                    sent_file = send_file("dent.png", "image/png")
+                #Occurs in python 3
+                except FileNotFoundError:
+                    sent_file = send_file("dent.png", "image/png")                 
             #Occurs in python 2
             except IOError:
                 sent_file = send_file("NoCamera.png", "image/png")
@@ -141,8 +151,13 @@ class User(Resource):
         req = requests.post(url = api_url, files=files, verify=False)       
         response = json.loads(req.text)
 
+        polygons = []
         #Checks the amount of people in the line
-        amount_in_line = len(response['classified'])
+        if len(response['classified']) == 0:
+            probability = 0
+        else:
+            probability = int(round(response['classified'][0]['confidence'] * 100))
+            polygons = response['classified'][0]['polygons'][0]
         
         #Builds the put call's parameters using the amount of people in line and the time of the original call        
         img_time_str = img_time.strftime("%H:%M")
@@ -152,13 +167,27 @@ class User(Resource):
         if week_day == 7: 
             weekday -= 7
         
-        server_data = img_day_str + ",%d," % week_day + img_time_str + ",%d" % amount_in_line
+        server_data = img_day_str + ",%d," % week_day + img_time_str + ",%d" % probability
         
         #Save the photo (comment out normally)
         if save_image:
             f = open("dent.png", "wb")
             f.write(files["files"][1])
-            f.close()        
+            f.close()
+            
+            if probability != 0:
+                dent = cv2.imread("dent.png", 0)
+                # Draw outline of shape
+                cv2.polylines(dent, [np.int32(polygons)], True, color=(255,0,0), thickness=2, lineType=8, shift=0)
+                
+                # Make copy of image
+                overlay = dent.copy()
+                
+                # Create transparent overlay of color on top of polygon
+                cv2.fillPoly(overlay, [np.int32(polygons)], (255,0,0))
+                cv2.addWeighted(overlay, 0.5, dent, 0.5, 0, dent)
+                cv2.imwrite("drawn_dent.png", dent)
+            
         
         #Sends a put call to itself
         server_req = requests.put(url = server_url, params={"data": server_data})
