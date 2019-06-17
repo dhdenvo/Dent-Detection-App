@@ -14,7 +14,7 @@
         android:layout_margin="20dp"
         android:layout_marginBottom="36dp"
         android:background="#e2fadb"
-        android:text="Dent \nor Not:"
+        android:text="Dent \nProbability:"
         android:textSize="35sp"
         app:fontFamily="serif-monospace"
         app:layout_constraintBottom_toTopOf="@+id/textView2"
