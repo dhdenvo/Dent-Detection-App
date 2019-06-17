@@ -75,32 +75,6 @@ public class MainActivity extends AppCompatActivity {
                     101, allPermissions);
         }
 
-        /*new JSONTask().execute(server);
-        new ImageTask().execute(server);
-
-        Thread t = new Thread(){
-            @Override
-            public void run(){
-                while (!isInterrupted()){
-                    try {
-                        Thread.sleep(5000);
-
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                new JSONTask().execute(server);
-                                new ImageTask().execute(server);
-                            }
-                        });
-
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        };
-        t.start();*/
-
         button.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
