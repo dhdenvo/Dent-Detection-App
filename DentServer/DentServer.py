@@ -192,7 +192,7 @@ class User(Resource):
         #Sends a put call to itself
         server_req = requests.put(url = server_url, params={"data": server_data})
         server_req = requests.get(url = server_url)        
-        return server_req.content
+        return server_req.content.replace("\n", "")[1:-1]
 
 #Runs the rest api application
 api.add_resource(User, "/dent")
