@@ -175,7 +175,16 @@ class User(Resource):
             f.write(files["files"][1])
             f.close()
             
-            if probability != 0:
+            if probability == 0:
+                try:
+                    os.remove("drawn_dent.png")
+                #Occurs in python 2
+                except OSError:
+                    pass
+                #Occurs in python 3
+                except FileNotFoundError:
+                    pass
+            else:
                 dent = cv2.imread("dent.png")
                 # Draw outline of shape
                 cv2.polylines(dent, [np.int32(polygons)], True, color=(0,0,255), thickness=2, lineType=8, shift=0)
